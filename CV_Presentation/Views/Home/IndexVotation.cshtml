@@ -1,0 +1,138 @@
+﻿@model IEnumerable<CVote_DataAccess.Relation.VotationOQU>
+
+@{
+    ViewBag.Title = "IndexVotation";
+    var urlUpdateStatus = Url.Action("StateVotationChange", "ApiVotation");
+}
+
+<script>
+    function UpdateStatus(ids,state) {
+        var v = {
+            id : ids,
+            status : state
+        }
+        var json = JSON.stringify(v);
+        $.ajax({
+            url: '/cv/ApiVotation/StateVotationChange',
+            type: 'post',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            success: function (data, textStatus, jQxhr) {
+                alert("Votaciòn actualizada correctamente");
+                $('#urlfinal').html("Votaciòn iniciada en = /cv/Votation/VotantsLogin?key=" + data);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    alert("Error al crear la votaciòn");
+                }
+        });
+    }
+    function RedirectStartVotation(id) {
+        window.location.href = '/cv/Votation/StartVotation?key=' + id;
+    }
+
+    function validateVotation(grafico, opciones, preguntas, id, state) {
+        if (grafico == 0 || opciones == 0 || preguntas == 0) {
+            alert("Complete la votaciòn, gràfico, opciones o preguntas");
+        } else {
+            UpdateStatus(id, state);
+        }
+    }
+    
+
+</script>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="box-title">Votaciones </h4>
+   
+        <h4 id="urlfinal"></h4>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <div class="card-header">
+                    <strong class="card-title"></strong>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Votaciòn
+                            </th>
+                            <th>
+                                Titulo
+                            </th>
+                            <th>
+                                Gràfico
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                            <th>
+                                Tipo
+                            </th>
+                            <th>
+                                Opciones
+                            </th>
+                            <th>
+                                Preguntas
+                            </th>
+                            <th>
+                                Usuarios
+                            </th>
+                            <th>
+                                Votantes
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.idVotation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.graphic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.status)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.options)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.questions)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.users)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.usersregister)
+                                </td>
+                                <td>
+                             
+    
+                                        <button class="btn btn-success" onclick="RedirectStartVotation(@item.idVotation);">Control</button>
+                                    
+
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div> <!-- /.row -->
+        <div class="card-body"></div>
+    </div>
+</div>

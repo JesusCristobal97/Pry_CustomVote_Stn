@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewBag.Title = "Opciones";
+    var UrlloadVotation = Url.Action("VotationCreated", "ApiVotation");
+    var UrlregisterOption = Url.Action("CreateOptionvotation", "ApiVotation");
+}
+    <style>
+        #Divopcion1, #Divopcion2, #Divopcion3, #Divopcion4, #Divopcion5, #Divopcion6, #Divopcion7 {
+            display: none;
+        }
+    </style>
+<script type="text/javascript">
+
+
+        function loadVotation() {
+            $.get(@UrlloadVotation, function (data, status) {
+                $.each(data, function (key, votation) {
+                    $("#cboVotation").append('<option value=' + votation.id + '>' + votation.title + '</option>');
+                });
+            });
+    }
+
+        function viewOptions() {
+        var options = $("#cbopOpciones").val();
+        console.log("options are" + options);
+        var max = 6;
+        for (var i = 1; i <= max; i++) {
+            if (i <= options) {
+                $("#Divopcion" + i).css("display", "block");
+            }
+            else {
+                $("#Divopcion" + i).css("display", "none");
+                $("#Divopcion" + i).val("");
+            }
+            }
+
+    }
+
+    function registerOption(letter,value,color) {
+        var opt = {
+            votationId:$("#cboVotation").val(),
+            letter: letter,
+            valueoption: value,
+            color: "#"+color 
+        }
+        var json = JSON.stringify(opt);
+        console.log(opt);
+
+        $.ajax({
+            url: @UrlregisterOption,
+            type: 'post',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: json,
+            success: function (data, textStatus, jQxhr) {
+                alert("Opciones creadas correctamente");
+                window.location.href = '/cv/Home/IndexVotation';
+                },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log("error es "+errorThrown);
+                    alert("Error al crear la Opciones");
+                }
+        });
+    }
+
+    function registerAllOption() {
+        for (var i = 1; i < 7; i++) {
+            if ($("#txt" + i).val() != "") {
+                registerOption(i,$("#txt" + i).val(),$("#color"+i).val());
+            }
+        }
+    }
+
+
+
+    window.onload = function () {
+        loadVotation();
+    }
+
+</script>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="box-title">Opciones </h4>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Votaciòn</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="cboVotation">
+                                <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Opciones</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="cbopOpciones" onclick="viewOptions();">
+                                <option value="0">Seleccione</option>
+                                <option value="1">1 opciòn</option>
+                                <option value="2">2 opciones</option>
+                                <option value="3">3 opciones</option>
+                                <option value="4">4 opciones</option>
+                                <option value="5">5 opciones</option>
+                                <option value="6">6 opciones</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="Divopcion1">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">A</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt1">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color A</label>
+                        <div class="col-sm-6">
+                            <input id="color1" class="jscolor form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row" id="Divopcion2">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">B</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt2">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color B</label>
+                        <div class="col-sm-6">
+                            <input id="color2" class="jscolor form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row" id="Divopcion3">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">C</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt3">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color C</label>
+                        <div class="col-sm-6">
+                            <input id="color3" class="jscolor form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row" id="Divopcion4">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">D</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt4">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color D</label>
+                        <div class="col-sm-6">
+                            <input id="color4" class="jscolor form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row" id="Divopcion5">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">E</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt5">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color E</label>
+                        <div class="col-sm-6">
+                            <input id="color5" class="jscolor form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row" id="Divopcion6">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">F</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt6">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color F</label>
+                        <div class="col-sm-6">
+                            <input id="color6" class="jscolor form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row" id="Divopcion7">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">G</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txt7">
+                        </div>
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Color G</label>
+                        <div class="col-sm-6">
+                            <input id="color7" class="jscolor form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label"></label>
+                        <div class="col-sm-6">
+                            <input type="button" onclick="registerAllOption();" class="btn btn-success" value="Registrar Opciones">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- /.row -->
+        <div class="card-body"></div>
+    </div>
+</div>

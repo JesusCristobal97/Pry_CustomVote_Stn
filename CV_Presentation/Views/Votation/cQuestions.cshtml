@@ -1,0 +1,202 @@
+﻿
+@{
+    ViewBag.Title = "cQuestions";
+    var UrlloadVotation = Url.Action("VotationCreated", "ApiVotation");
+    var UrlImportCSV = Url.Action("UploadFile", "ApiVotation");
+
+}
+<script>
+    function loadVotation() {
+            $.get('/cv/ApiVotation/VotationCreated', function (data, status) {
+                $.each(data, function (key, votation) {
+                    $("#cboVotation").append('<option value=' + votation.id + '>' + votation.title + '</option>');
+                });
+            });
+    }
+    function loadQuestion() {
+        
+        var id = $("#cboVotation").val();
+        $("#cboPreguntas").empty();
+
+        $.get('/cv/ApiVotation/QuestionVotation?id=' + id, function (data, status) {
+            $.each(data, function (key, preguntas) {
+                    $("#cboPreguntas").append('<option value=' + preguntas.id + '>' + preguntas.question + '</option>');
+                });
+            });
+    }
+    function loadAnswer() {
+        var id = $("#cboPreguntas").val();
+
+        $.get('/cv/ApiVotation/QuestionAnswer?id=' + id, function (data, status) {
+           var i = 1;
+            $.each(data, function (key, respuestas) {
+                   var pregunta = $('select[name="preguntas"] option:selected').text();
+                    $("#txtPregunta").val(pregunta);
+                    $("#txtRespuesta"+i).val(respuestas.answer);
+                    console.log(respuestas);
+                    i++;
+                });
+            });
+    }
+    function downloadTemplate(file) {
+        window.location = "/cv/ApiVotation/DownloadTemplate?file=" + file;
+    }
+
+    function ImportCSV() {
+
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#txtfile").get(0);
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            fileData.append('VotationId', $("#cboVotation").val());
+
+            $.ajax({
+                url:  "/cv/ApiVotation/UploadFile",
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    alert("CSV insertado correctamente");
+                    loadQuestion();
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        }
+        else {
+            alert("FormData is not supported.");
+        }
+    }
+
+
+    window.onload = function () {
+        loadVotation();
+    }
+
+
+</script>
+<div class="card">
+    <div class="card-body">
+        <h4 class="box-title">Preguntas </h4>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Votaciòn</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="cboVotation" onclick="loadQuestion();">
+                                <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">CSV</label>
+                        <div class="col-sm-6">
+                            <input type="file" class="form-control-file" id="txtfile">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1"></label>
+                        <div class="col-sm-6">
+                            <input type="button" onclick="downloadTemplate('tmpquestion.csv');" class="btn btn-success" value="Descargar Plantilla">
+                            <input type="button" onclick="ImportCSV();" class="btn btn-success" value="Subir CSV">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Preguntas</label>
+                        <div class="col-sm-6">
+                            <select name="preguntas" class="form-control" id="cboPreguntas" onclick="loadAnswer();">
+                                <option value="0">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Pregunta</label>
+                        <div class="col-sm-6">
+                            <textarea type="text" class="form-control" name="name" id="txtPregunta" value=""></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesta 1</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta1" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesa 2</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta2" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesta 3</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta3" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesta 4</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta4" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesa 5</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta5" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesta 6</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta6" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesta 7</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta7" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesa 8</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta8" value="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Respuesta 9</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="name" id="txtRespuesta9" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="exampleFormControlFile1"></label>
+                        <div class="col-sm-6">
+                            <input type="button" onclick="ImportCSV();" class="btn btn-success" value="Actualizar">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- /.row -->
+        <div class="card-body"></div>
+    </div>
+</div>
+
