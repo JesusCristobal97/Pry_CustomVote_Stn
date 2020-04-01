@@ -13,7 +13,7 @@
 
 
         function loadVotation() {
-            $.get(@UrlloadVotation, function (data, status) {
+            $.get('/ApiVotation/VotationCreated', function (data, status) {
                 $.each(data, function (key, votation) {
                     $("#cboVotation").append('<option value=' + votation.id + '>' + votation.title + '</option>');
                 });
@@ -47,14 +47,15 @@
         console.log(opt);
 
         $.ajax({
-            url: @UrlregisterOption,
+            url: '/ApiVotation/CreateOptionvotation',
             type: 'post',
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: json,
             success: function (data, textStatus, jQxhr) {
+                console.log(data);
                 alert("Opciones creadas correctamente");
-                window.location.href = '/cv/Home/IndexVotation';
+                window.location.href = '/Home/IndexVotation';
                 },
             error: function (jqXhr, textStatus, errorThrown) {
                 console.log("error es "+errorThrown);
@@ -70,8 +71,6 @@
             }
         }
     }
-
-
 
     window.onload = function () {
         loadVotation();

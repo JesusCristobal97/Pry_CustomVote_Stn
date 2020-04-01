@@ -80,11 +80,15 @@ namespace CVote_Presentation.Controllers
                         url.keyVotation = keyg.ToString();
                         url.urlVotation = "";
                         var _URL = _DATA.createURLVotation(url, DBConnect.open());
-                        ViewBag.URL =   _URL.keyVotation;
+                        ViewBag.URL = _URL.keyVotation;
                         ViewBag.UrlGrafico = key;
                     }
+                    return View();
                 }
-                return View();
+                else {
+                    return RedirectToAction("IndexVotation", "Home");
+                }
+
             }
             else {
                 return RedirectToAction("Login", "Home");

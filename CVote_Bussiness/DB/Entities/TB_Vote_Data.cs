@@ -22,5 +22,9 @@ namespace CVote_Bussiness.DB.Entities
         public string deleteVote(TB_Vote vote, OleDbConnection db) {
             return _VOTE.deleteVote(vote,db);
         }
-    }
+        public string stopVote(int id, OleDbConnection db)
+        {
+            return _VOTE.stopVote(id,db);
+        }
+   }
 }

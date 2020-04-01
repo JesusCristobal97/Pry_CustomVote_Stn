@@ -5,17 +5,26 @@
 }
 <script>
     function selectQuestionforVotation() {
-        $.get("/cv/ApiVote/SelectQuestionforVotation", function (data, status) {
+        $.get("/ApiVote/SelectQuestionforVotation", function (data, status) {
             console.log(data);
         });
     }
     function deleteQuestion() {
-        $.get("/cv/ApiVote/DeleteQuestion", function (data, status) {
+        $.get("/ApiVote/DeleteQuestion", function (data, status) {
+            alert(data);
             console.log(data);
         });
     }
     function deleteAllQuestion() {
-        $.get("/cv/ApiVote/DeleteAllQuestion", function (data, status) {
+        $.get("/ApiVote/DeleteAllQuestion", function (data, status) {
+            alert(data);
+            console.log(data);
+        });
+    }
+
+    function stopVotation() {
+        $.get("/ApiVote/StopVotación", function (data, status) {
+            alert(data);
             console.log(data);
         });
     }
@@ -32,7 +41,7 @@
                 ip = 1;
             }
                $("#Respuesta").empty();
-            $.get("/cv/ApiVote/nextQuestion?i=1&type=" + type +"&id=" + @key, function (data, status) {
+            $.get("/ApiVote/nextQuestion?i=1&type=" + type +"&id=" + @key, function (data, status) {
             if (data[0] != null) {
              
                 $("#Pregunta").html(ip+". "+data[0]);
@@ -44,8 +53,6 @@
                 $("#Pregunta").html("Gracias por participar");
                 $("#control").css("display", "none");
             }
-
-
         });
     }
 
@@ -58,7 +65,7 @@
         <a href="@Url.Action("VotantsLogin","Votation",new { key= ViewBag.URL})" target="_blank">Click para ir a la votaciòn</a>       
         <h3 class="box-title">Gràfico en : </h3>
 
-            <a href="@Url.Action("Index","ApiGraphic",new { id= ViewBag.UrlGrafico})"target="_blank">Click para ir al gràfico</a>
+        <a href="@Url.Action("Index","ApiGraphic",new { key= ViewBag.UrlGrafico})" target="_blank">Click para ir al gràfico</a>
 
     </div>
     <div class="row">
@@ -82,10 +89,13 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-2">
-                            <input type="button" onclick="deleteQuestion();" class="btn btn-warning" value="Reiniciar" />
+                            <input type="button" onclick="deleteQuestion();" class="btn btn-warning" value="Reiniciar Pregunta" />
                         </div>
                         <div class="col-sm-2">
                             <input type="button" onclick="deleteAllQuestion();" class="btn btn-danger" value="Reiniciar Votaciòn" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="button" onclick="stopVotation();" class="btn btn-danger" value="Detener Votaciòn" />
                         </div>
                     </div>
                     <label for="staticEmail" class="col-sm-4 col-form-label">Gràfico</label>

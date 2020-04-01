@@ -152,6 +152,14 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
             return Json("");
         }
 
+        [HttpGet]
+        public JsonResult StopVotación()
+        {
+            int id = int.Parse(Session["votationid"].ToString());
+            var request = _Vote.stopVote(id, DBConnect.open());
+            return Json(request,JsonRequestBehavior.AllowGet);
+        }
+
         public string getipUser()
         {
             return Request.ServerVariables["REMOTE_ADDR"].ToString();

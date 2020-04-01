@@ -42,7 +42,7 @@ namespace CVote_DataAccess.DB
                 OleDbCommand cmd = new OleDbCommand(sql, db);
                 cmd.ExecuteNonQuery();
                 db.Close();
-                result = "VOTACIÒN ELIMINADA";
+                result = "PREGUNTA REINICIADA";
             }
             catch (Exception)
             {
@@ -64,18 +64,39 @@ namespace CVote_DataAccess.DB
                 string sql = @"DELETE FROM TB_Vote WHERE VotationId =" + vote.votationid;
                 OleDbCommand cmd = new OleDbCommand(sql, db);
                 cmd.ExecuteNonQuery();
+
+                String sql2 = @"UPDATE TB_VOTATION_URL SET [Order] = 0 WHERE VotationId = " + vote.votationid;
+                OleDbCommand cmd2 = new OleDbCommand(sql2, db);
+                cmd2.ExecuteNonQuery();
+
                 db.Close();
-                result = "VOTACIÒN ELIMINADA";
+                result = "VOTACIÒN REINICIADA";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                result = ex.Message;
             }
             return result;
 
         }
 
+        public string stopVote(int id, OleDbConnection db) {
+            string result = "";
+            try
+            {
+                String sql2 = @"UPDATE TB_VOTATION_URL SET [Order] = 0 WHERE VotationId = " + id;
+                OleDbCommand cmd2 = new OleDbCommand(sql2, db);
+                cmd2.ExecuteNonQuery();
 
+                db.Close();
+                result = "VOTACIÒN DETENIDA";
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+            return result;
+        }
     }
 }

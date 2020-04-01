@@ -95,7 +95,7 @@ namespace CVote_DataAccess.DBList
             DataSet ds = new DataSet();
             try
             {
-                OleDbDataAdapter da = new OleDbDataAdapter("select * from tb_vote t1 where FHVote=(select " + type + "(FHVote) from tb_vote t2 where t1.MAC=t2.MAC and t2.Votationid  =" + id+ " and t2.QuestionId="+qid+")", db);
+                OleDbDataAdapter da = new OleDbDataAdapter("select * from tb_vote t1 where FHVote=(select " + type + "(FHVote) from tb_vote t2 where t1.userVoteid=t2.userVoteid and t2.Votationid  =" + id+ " and t2.QuestionId="+qid+")", db);
                 da.Fill(ds);
                 db.Close();
                 DataTable dt = ds.Tables[0];

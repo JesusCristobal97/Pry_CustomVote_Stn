@@ -478,6 +478,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\graphic\" />
+    <Folder Include="Resource\Upload\Question\" />
+    <Folder Include="Resource\Upload\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

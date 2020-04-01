@@ -76,14 +76,14 @@
         console.log(user);
         var json = JSON.stringify(user);
         $.ajax({
-            url: '/cv/ApiUser/Login',
+            url: '/ApiUser/Login',
             type: 'post',
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: json,
             success: function (data, textStatus, jQxhr) {
                 alert(data);
-                window.location.href = '/cv/Home/IndexVotation';
+                window.location.href = '/Home/IndexVotation';
                 },
             error: function (jqXhr, textStatus, errorThrown) {
                 console.log("error es "+errorThrown);

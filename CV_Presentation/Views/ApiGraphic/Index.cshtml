@@ -4,7 +4,7 @@
     Layout = null;
     var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
     var userInfoJson = jss.Serialize(ViewBag.Report);
-    var key = @Request.QueryString["id"];
+    var key = @Request.QueryString["key"];
 
 }
 <h1>Resultado de Votaciòn</h1>
@@ -20,7 +20,7 @@
         function resultVote() {
             var id = @key;
             $.ajax({
-                url: "/cv/ApiGraphic/Report?id=" +id,
+                url: "/ApiGraphic/Report?key=" +id,
             type: "get",
             success: (function (data) {
                 console.log(data);

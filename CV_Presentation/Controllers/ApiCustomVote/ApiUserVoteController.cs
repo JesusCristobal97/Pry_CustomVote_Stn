@@ -18,7 +18,7 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
         {
             string MessageLogin = "";
             TB_UserVote tbu = tu.Login(userv, DBConnect.open());
-            if (tbu.id != null)
+            if (tbu.id != 0)
             {
                 Session["UserVote"] = tbu;
                 MessageLogin = "Usuario Validado";
@@ -28,6 +28,21 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
                 MessageLogin = "Compruebe sus credenciales o comuniquese con el administrador";
             }
             return Json(MessageLogin, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LogOut()
+        {
+            if (Session["UserVote"] != null)
+            {
+                Session["UserVote"] = null;
+
+                return RedirectToAction("VotantsLogin", "Votation");
+            }
+            else
+            {
+                return View();
+            }
+
         }
     }
 }

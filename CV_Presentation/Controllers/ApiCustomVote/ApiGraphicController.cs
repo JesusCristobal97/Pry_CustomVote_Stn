@@ -13,11 +13,11 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
     public class ApiGraphicController : Controller
     {
         // GET: ApiGraphic
-        public ActionResult Index(string id)
+        public ActionResult Index(string key)
         {
-            if (id != null)
+            if (key != null)
             {
-               ViewBag.Report = Report(id);
+               ViewBag.Report = Report(key);
             }
 
             return View();
@@ -26,12 +26,12 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
 
 
         [HttpGet]
-        public JsonResult Report(string id) {
+        public JsonResult Report(string key) {
             string[] colors = new string[9];
             string[] graphic = new string[] { };
             string[] options = new string[9];
 
-            int idf = int.Parse(id);
+            int idf = int.Parse(key);
             ListVote lv = new ListVote();
             
             List<ResultOptions> lstro = lv.getOptions(DBConnect.open(), idf);

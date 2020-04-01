@@ -7,14 +7,14 @@
 }
 <script>
         function loadVotation() {
-            $.get('/cv/ApiVotation/VotationCreated', function (data, status) {
+            $.get('/ApiVotation/VotationCreated', function (data, status) {
                 $.each(data, function (key, votation) {
                     $("#cboVotation").append('<option value=' + votation.id + '>' + votation.title + '</option>');
                 });
             });
     }
             function loadTypeGraphic() {
-            $.get('/cv/ApiVotation/TypeGraphic', function (data, status) {
+            $.get('/ApiVotation/TypeGraphic', function (data, status) {
                 $.each(data, function (key, graphic) {
                     $("#cboGrafico").append('<option value=' + graphic.id + '>' + graphic.descripcion + '</option>');
                 });
@@ -37,14 +37,14 @@
             fileData.append('Height', $("#txtheight").val());
 
             $.ajax({
-                url:'/cv/ApiVotation/UploadImage',
+                url:'/ApiVotation/UploadImage',
                 type: "POST",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
                 data: fileData,
                 success: function (result) {
                     alert("Gràfico registrado correctamente");
-                    window.location.href = '/cv/Home/IndexVotation';
+                    window.location.href = '/Home/IndexVotation';
                     loadQuestion();
                 },
                 error: function (err) {

@@ -4,14 +4,14 @@
 }
 <script>
         function loadVotation() {
-            $.get("/cv/ApiVotation/VotationCreated", function (data, status) {
+            $.get("/ApiVotation/VotationCreated", function (data, status) {
                 $.each(data, function (key, votation) {
                     $("#cboVotation").append('<option value=' + votation.id + '>' + votation.title + '</option>');
                 });
             });
     }
         function downloadTemplate(file) {
-        window.location = '/cv/ApiVotation/DownloadTemplate?file=' + file;
+        window.location = '/ApiVotation/DownloadTemplate?file=' + file;
     }
 
         function ImportCSV() {
@@ -27,7 +27,7 @@
             fileData.append('VotationId', $("#cboVotation").val());
 
             $.ajax({
-                url: '/cv/ApiVotation/UploadFileVotants',
+                url: '/ApiVotation/UploadFileVotants',
                 type: "POST",
                 contentType: false, // Not to set any content header
                 processData: false, // Not to process data
@@ -60,7 +60,7 @@
         console.log(userVote);
 
         $.ajax({
-            url: '/cv/ApiVotation/CreateUserVotation',
+            url: '/ApiVotation/CreateUserVotation',
             type: 'post',
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',

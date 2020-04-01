@@ -17,7 +17,7 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
         {
             string MessageLogin = "";
             TB_User tbu = tu.login(user, DBConnect.open());
-            if (tbu.id != null)
+            if (tbu.id != 0)
             {
                 Session["User"] = tbu;
                 MessageLogin = "Usuario Validado";

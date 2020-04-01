@@ -4,7 +4,6 @@ using CVote_DataAccess.Model;
 using CVote_Presentation.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
 using System.IO;
 using System.Text;
 using System.Web;
@@ -47,19 +46,19 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
 
         [HttpPost]
         public ActionResult UploadFile() {
-
+            
             int idVotation = int.Parse(Request.Form[0].ToString());
-
+            string fullpath = "";
             if (Request.Files.Count > 0 && idVotation > 0)
             {
                 try
                 {
                     HttpFileCollectionBase files = Request.Files;
-                    for (int i = 0; i < files.Count; i++)
-                    {
-                        HttpPostedFileBase file = files[i];
+                    //for (int i = 0; i < files.Count; i++)
+                   // {
+                        HttpPostedFileBase file = files[0];
                         string fname;
-
+                    var req = Request.Browser.Browser.ToUpper();
                         if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                         {
                             string[] testfiles = file.FileName.Split(new char[] { '\\' });
@@ -67,9 +66,13 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
                         }
                         else 
                         {
-                            fname = file.FileName;
+                            //fname = file.FileName;
+                            string filen = Request.Files.AllKeys[0].ToString();
+                            string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Resource\\Upload\\Question\\");
+                            fullpath = Path.Combine(path, filen);
+                            file.SaveAs(fullpath);
                         }
-                        using (var reader = new StreamReader(fname, Encoding.Default, true))
+                        using (var reader = new StreamReader(fullpath, Encoding.Default, true))
                         {
                             while (!reader.EndOfStream)
                             {
@@ -97,20 +100,24 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
                                 }
                             }
                         }
+                    System.IO.File.Delete(fullpath);
+                  
 
                     }
-                }
-                catch (System.Exception)
+              //  }
+                catch (System.Exception ex)
                 {
-
-                    throw;
+                    return Json("Error is " +  ex.Message);
                 }
+                
                 return Json("File Uploaded");
             }
             else {
                 return Json("No files selected");
             }
         }
+
+    
 
         [HttpPost]
         public ActionResult UploadImage() {
@@ -154,12 +161,11 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
             if (Request.Files.Count > 0)
             {
                 int idVotation = int.Parse(Request.Form[0].ToString());
+                string fullpath = "";
                 try
                 {
                     HttpFileCollectionBase files = Request.Files;
-                    for (int i = 0; i < files.Count; i++)
-                    {
-                        HttpPostedFileBase file = files[i];
+                        HttpPostedFileBase file = files[0];
                         string fname;
 
                         if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
@@ -169,9 +175,12 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
                         }
                         else
                         {
-                            fname = file.FileName;
+                            string filen = Request.Files.AllKeys[0].ToString();
+                            string path = Path.Combine(HttpRuntime.AppDomainAppPath, "Resource\\Upload\\Users\\");
+                            fullpath = Path.Combine(path, filen);
+                            file.SaveAs(fullpath);
                         }
-                        using (var reader = new StreamReader(fname, Encoding.Default, true))
+                        using (var reader = new StreamReader(fullpath, Encoding.Default, true))
                         {
                             while (!reader.EndOfStream)
                             {
@@ -192,12 +201,12 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
                                 }
                             }
                         }
-                    }
+                    System.IO.File.Delete(fullpath);
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
 
-                    throw;
+                    return Json("Error is " + ex.Message);
                 }
             }
 
