@@ -15,5 +15,6 @@ namespace CVote_DataAccess.Utils
         public string imagefondo { get; set; }
         public int width { get; set; }
         public int height { get; set; }
+        public string visible { get; set; }
     }
 }

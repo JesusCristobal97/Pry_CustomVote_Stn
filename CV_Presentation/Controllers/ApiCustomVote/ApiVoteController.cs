@@ -1,6 +1,7 @@
 ﻿using CVote_Bussiness.DB.Entities;
 using CVote_Bussiness.DB.ListEntities;
 using CVote_DataAccess.Model;
+using CVote_DataAccess.Relation;
 using CVote_DataAccess.Utils;
 using CVote_Presentation.Models;
 using System;
@@ -100,6 +101,29 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
 
             return Json(lsresult, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpGet]
+        public JsonResult GetDetaillVote() {
+            List<VotationDetail> votes = new List<VotationDetail>();
+            if (Session["questionid"] != null && Session["votationid"] != null)
+            {
+                int idf = (int)Session["votationid"];
+                int questionid = (int)Session["questionid"];
+                votes = lv.getListDetail("max", idf, questionid, DBConnect.open());
+            }
+            else {
+                votes = null;
+            }
+            return Json(votes,JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public JsonResult ChangueVisibility(bool visible)
+        {
+            int id = (int)Session["Votationid"];
+            _Data.changeVisibleGraphic(DBConnect.open(), id, visible);
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public JsonResult SelectQuestionforVotation() {
             TB_Votation_URL _URL = new TB_Votation_URL();
@@ -139,8 +163,8 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
             TB_Vote vote = new TB_Vote();
             vote.votationid = int.Parse(Session["votationid"].ToString()); 
             vote.questionid = int.Parse(Session["questionid"].ToString());
-            _Vote.deleteVoteforQuestion(vote,DBConnect.open());
-            return Json("");
+            var request = _Vote.deleteVoteforQuestion(vote,DBConnect.open());
+            return Json(request, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -148,8 +172,8 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
         {
             TB_Vote vote = new TB_Vote();
             vote.votationid = int.Parse(Session["votationid"].ToString());
-            _Vote.deleteVote(vote, DBConnect.open());
-            return Json("");
+            var request = _Vote.deleteVote(vote, DBConnect.open());
+            return Json(request, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

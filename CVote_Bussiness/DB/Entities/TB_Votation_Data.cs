@@ -41,6 +41,10 @@ namespace CVote_Bussiness.DB.Entities
         public string changeorderVotation(OleDbConnection db, TB_Votation_URL u) {
             return _Votation.changeorderVotation(db,u);
         }
+
+        public string changeVisibleGraphic(OleDbConnection db, int votationid, bool visible) {
+            return _Votation.changeVisibleGraphic(db,votationid,visible);
+        }
         /*
         public TB_User Login(TB_User user, OleDbConnection db) {
             return user_Vote.Login(user,db);

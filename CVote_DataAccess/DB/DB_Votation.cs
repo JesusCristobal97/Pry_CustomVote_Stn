@@ -222,5 +222,25 @@ namespace CVote_DataAccess.DB
             return result;
         }
 
+        public string changeVisibleGraphic(OleDbConnection db, int votationid,bool visible)
+        {
+            string result = "";
+            try
+            {
+                String sql = @"UPDATE TB_Votation_Graphic SET Visible =" + visible + " WHERE VotationId = " + votationid;
+                OleDbCommand cmd = new OleDbCommand(sql, db);
+                cmd.ExecuteNonQuery();
+                db.Close();
+                result = "Gráfico ";
+            }
+            catch (Exception e)
+            {
+                result = e.Message;
+                db.Close();
+                throw;
+            }
+            return result;
+        }
+
     }
 }

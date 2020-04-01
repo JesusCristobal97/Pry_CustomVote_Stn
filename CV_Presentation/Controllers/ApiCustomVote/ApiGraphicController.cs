@@ -49,7 +49,7 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
 
             List<TB_Votation_Questions_Answer> lstanswer = lv.getAnswer(DBConnect.open(), qRequest.id);
 
-            graphic = new string[] { qRequest.question, lstro[0].graphic, lstro[0].height.ToString(), lstro[0].width.ToString(), lstro[0].imagefondo };
+            graphic = new string[] { qRequest.question, lstro[0].graphic, lstro[0].height.ToString(), lstro[0].width.ToString(), lstro[0].imagefondo ,lstro[0].visible};
             /*
                         for (int i = 0; i < lstro.Count; i++)
                         {

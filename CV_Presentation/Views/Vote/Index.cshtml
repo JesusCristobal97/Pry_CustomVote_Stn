@@ -24,8 +24,11 @@
                     for (var i = 1; i < data.length; i++) {
                         console.log(data[i]);
                         $("#Respuesta").append("<h3 class='op'>" + abc[i] + ". " + data[i] + "<h3>");
+
                     }
                 } else {
+                    $("#lblOK").html("");
+                    $("#lblData").html("");
                     $("#Respuesta").empty();
                     $("#Pregunta").html("Votación Cerrada");
                     $("#control").css("display", "none");

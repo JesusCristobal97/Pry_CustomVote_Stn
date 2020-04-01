@@ -80,6 +80,31 @@
 
 <body>
 
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyALmW04gswNNyRU2--4BHtBcBhNVimUDMk",
+            authDomain: "customvote-97b92.firebaseapp.com",
+            databaseURL: "https://customvote-97b92.firebaseio.com",
+            projectId: "customvote-97b92",
+            storageBucket: "customvote-97b92.appspot.com",
+            messagingSenderId: "686633067826",
+            appId: "1:686633067826:web:0468405cfcc5a0e469e32b",
+            measurementId: "G-HYQX6KMYD8"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">

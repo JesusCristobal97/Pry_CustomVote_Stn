@@ -3,7 +3,13 @@
     ViewBag.Title = "StartVotation";
     var key = @Request.QueryString["key"];
 }
-<script>
+    <script>
+        function changueVisibility(val) {
+            $.get("/ApiVote/ChangueVisibility?visible=" + val, function (data, status) {
+                console.log(data);
+            });
+        }
+
     function selectQuestionforVotation() {
         $.get("/ApiVote/SelectQuestionforVotation", function (data, status) {
             console.log(data);
@@ -28,6 +34,25 @@
             console.log(data);
         });
     }
+
+    function getDetaill() {
+        $.get("/ApiVote/GetDetaillVote", function (data, status) {
+            // alert(data);
+            $("#RequestModal").empty();
+            console.log(data);
+            var tableHtml = '<table class="table table-bordered"><thead><tr><th scope="col">Nombre</th><th scope="col">Apellidos</th><th scope="col">Resultado</th><th scope="col">Fecha y hora</th></tr></thead><tbody>';
+            for (var i = 0; i < data.length; i++) {
+                tableHtml += '<tr>'
+                    + '<td>' + data[i].nameuser + '</td >'
+                    + '<td>' + data[i].lastname + '</td >'
+                    + '<td>' + data[i].result + '</td >'
+                    + '<td>' + data[i].fhvotacion + '</td >'
+                    + '</tr > ';
+             }
+            tableHtml += '</tbody></table>';
+            $("#RequestModal").append(tableHtml);
+        });
+    }
     var ip = 1;
         function nextquestion(type) {
         var abc = ["0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
@@ -43,7 +68,7 @@
                $("#Respuesta").empty();
             $.get("/ApiVote/nextQuestion?i=1&type=" + type +"&id=" + @key, function (data, status) {
             if (data[0] != null) {
-             
+
                 $("#Pregunta").html(ip+". "+data[0]);
                 for (var i = 1; i < data.length; i++) {
                     console.log(data[i]);
@@ -56,13 +81,31 @@
         });
     }
 
+    </script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Votantes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="RequestModal" class="modal-body">
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 
 
-</script>
 <div class="card">
     <div class="card-body">
         <h3 class="box-title">Votaciòn @key Iniciada  en : </h3>
-        <a href="@Url.Action("VotantsLogin","Votation",new { key= ViewBag.URL})" target="_blank">Click para ir a la votaciòn</a>       
+        <a href="@Url.Action("VotantsLogin","Votation",new { key= ViewBag.URL})" target="_blank">Click para ir a la votaciòn</a>
         <h3 class="box-title">Gràfico en : </h3>
 
         <a href="@Url.Action("Index","ApiGraphic",new { key= ViewBag.UrlGrafico})" target="_blank">Click para ir al gràfico</a>
@@ -94,20 +137,20 @@
                         <div class="col-sm-2">
                             <input type="button" onclick="deleteAllQuestion();" class="btn btn-danger" value="Reiniciar Votaciòn" />
                         </div>
-                        <div class="col-sm-2">
-                            <input type="button" onclick="stopVotation();" class="btn btn-danger" value="Detener Votaciòn" />
-                        </div>
+                        <!-- <div class="col-sm-2">
+         <input type="button" onclick="stopVotation();" class="btn btn-danger" value="Detener Votaciòn" />
+     </div>-->
                     </div>
                     <label for="staticEmail" class="col-sm-4 col-form-label">Gràfico</label>
                     <div class="form-group row">
-                        <div class="col-sm-2">
-                            <button class="btn btn-success">Cantidad</button>
+                        <div class="col-sm-3">
+                            <input onclick="changueVisibility(true);" class="btn btn-success"value="Mostrar Gráfico"/>
                         </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-success">Porcentaje</button>
+                        <div class="col-sm-3">
+                            <input onclick="changueVisibility(false);" class="btn btn-success"value="Ocultar Gráfico"/>
                         </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-success">Detalle</button>
+                        <div class="col-sm-3">
+                            <input type="button" data-toggle="modal" data-target="#exampleModalCenter" onclick="getDetaill();" class="btn btn-success" value="Detalle" />
                         </div>
                     </div>
                     <div class="form-group row">

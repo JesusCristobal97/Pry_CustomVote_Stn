@@ -1,5 +1,6 @@
 ﻿using CVote_DataAccess.DBList;
 using CVote_DataAccess.Model;
+using CVote_DataAccess.Relation;
 using CVote_DataAccess.Utils;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -20,7 +21,10 @@ namespace CVote_Bussiness.DB.ListEntities
         {
             return dl.ListVote(type,id,qid,db);
         }
-
+        public List<VotationDetail> getListDetail(string type, int id, int qid, OleDbConnection db)
+        {
+            return dl.ListDetaillVote(type, id, qid, db);
+        }
         public ResultVote getVote(List<TB_Vote> votes) {
             return dl.getVote(votes);
         }

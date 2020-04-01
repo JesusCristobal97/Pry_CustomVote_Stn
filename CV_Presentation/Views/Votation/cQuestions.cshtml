@@ -43,35 +43,46 @@
     }
 
     function ImportCSV() {
+        var cbov = $("#cboVotation").val();
 
+        if (cbov == "0") {
+            alert("Selecciona una votación");
+        }
+        else {
         if (window.FormData !== undefined) {
             var fileUpload = $("#txtfile").get(0);
             var files = fileUpload.files;
 
-            var fileData = new FormData();
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-            fileData.append('VotationId', $("#cboVotation").val());
+            if (files.length == 0) {
 
-            $.ajax({
-                url:  "/ApiVotation/UploadFile",
-                type: "POST",
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                data: fileData,
-                success: function (result) {
-                    console.log(result);
-                    alert(result);
-                    loadQuestion();
-                },
-                error: function (err) {
-                    alert(err.statusText);
+                alert("Seleccione un archivo csv");
+            } else {
+
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
                 }
-            });
+                fileData.append('VotationId', $("#cboVotation").val());
+                $.ajax({
+                    url: "/ApiVotation/UploadFile",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        console.log(result);
+                        alert(result);
+                        loadQuestion();
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
         }
         else {
             alert("FormData is not supported.");
+            }
         }
     }
 

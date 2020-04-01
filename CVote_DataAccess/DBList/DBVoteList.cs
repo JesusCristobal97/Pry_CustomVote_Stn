@@ -1,4 +1,5 @@
 ﻿using CVote_DataAccess.Model;
+using CVote_DataAccess.Relation;
 using CVote_DataAccess.Utils;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,7 @@ namespace CVote_DataAccess.DBList
                     result.imagefondo = rows["ImageG"].ToString();
                     result.height = int.Parse(rows["Heigth"].ToString());
                     result.width = int.Parse(rows["Width"].ToString());
+                    result.visible = rows["Visible"].ToString();
                     lstresult.Add(result);
                 }
             }
@@ -89,13 +91,42 @@ namespace CVote_DataAccess.DBList
             return lstresult;
         }
        
-        public List<TB_Vote> ListVote(string type, int id,int qid, OleDbConnection db)
+        public List<VotationDetail> ListDetaillVote(string type, int id,int qid, OleDbConnection db)
+        {
+            List<VotationDetail> votes = new List<VotationDetail>();
+            DataSet ds = new DataSet();
+            try
+            {
+                OleDbDataAdapter da = new OleDbDataAdapter("select u.NameUser,u.LastNameUser,t1.Result,t1.FHVote from tb_vote t1 inner join tb_uservote u on t1.uservoteid= u.id where FHVote=(select " + type + " (FHVote) from tb_vote t2 where t1.userVoteid=t2.userVoteid and t2.Votationid  =" + id+ " and t2.QuestionId="+qid+")", db);
+                da.Fill(ds);
+                db.Close();
+                DataTable dt = ds.Tables[0];
+                foreach (DataRow rows in dt.Rows)
+                {
+                    VotationDetail voted = new VotationDetail();
+                    voted.nameuser = rows["NameUser"].ToString();
+                    voted.lastname = rows["LastNameUser"].ToString();
+                    voted.result = rows["Result"].ToString();
+                    voted.fhvotacion = rows["FHVote"].ToString();
+                    votes.Add(voted);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return votes;
+        }
+
+        public List<TB_Vote> ListVote(string type, int id, int qid, OleDbConnection db)
         {
             List<TB_Vote> votes = new List<TB_Vote>();
             DataSet ds = new DataSet();
             try
             {
-                OleDbDataAdapter da = new OleDbDataAdapter("select * from tb_vote t1 where FHVote=(select " + type + "(FHVote) from tb_vote t2 where t1.userVoteid=t2.userVoteid and t2.Votationid  =" + id+ " and t2.QuestionId="+qid+")", db);
+                OleDbDataAdapter da = new OleDbDataAdapter("select * from tb_vote t1 where FHVote=(select " + type + "(FHVote) from tb_vote t2 where t1.userVoteid=t2.userVoteid and t2.Votationid  =" + id + " and t2.QuestionId=" + qid + ")", db);
                 da.Fill(ds);
                 db.Close();
                 DataTable dt = ds.Tables[0];

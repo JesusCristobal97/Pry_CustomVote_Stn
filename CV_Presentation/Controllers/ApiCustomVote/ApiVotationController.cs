@@ -242,6 +242,8 @@ namespace CVote_Presentation.Controllers.ApiCustomVote
 
 
 
+
+
         [HttpGet]
         public JsonResult VotationCreated() {
             lstVotation = listVotation.getVotesCreated(DBConnect.open());

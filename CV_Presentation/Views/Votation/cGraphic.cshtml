@@ -22,38 +22,51 @@
     }
 
     function createGraphic() {
-
-        if (window.FormData !== undefined) {
-            var fileUpload = $("#txtImage").get(0);
-            var files = fileUpload.files;
-
-            var fileData = new FormData();
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-            fileData.append('VotationId', $("#cboVotation").val());
-            fileData.append('GraphicId', $("#cboGrafico").val());
-            fileData.append('Width', $("#txtwidth").val());
-            fileData.append('Height', $("#txtheight").val());
-
-            $.ajax({
-                url:'/ApiVotation/UploadImage',
-                type: "POST",
-                contentType: false, // Not to set any content header
-                processData: false, // Not to process data
-                data: fileData,
-                success: function (result) {
-                    alert("Gràfico registrado correctamente");
-                    window.location.href = '/Home/IndexVotation';
-                    loadQuestion();
-                },
-                error: function (err) {
-                    alert(err.statusText);
-                }
-            });
+        var cbov = $("#cboVotation").val();
+        var cbog = $("#cboGrafico").val();
+        if (cbov == "0") {
+            alert("Seleccione una votación");
+        } else if (cbog== "0") {
+            alert("Seleccione un gráfico");
         }
         else {
-            alert("FormData is not supported.");
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#txtImage").get(0);
+                var files = fileUpload.files;
+
+                if (files.length == 0) {
+                    alert("Seleccione una imagen");
+                } else {
+
+                    var fileData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    fileData.append('VotationId', $("#cboVotation").val());
+                    fileData.append('GraphicId', $("#cboGrafico").val());
+                    fileData.append('Width', $("#txtwidth").val());
+                    fileData.append('Height', $("#txtheight").val());
+
+                    $.ajax({
+                        url: '/ApiVotation/UploadImage',
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+                        success: function (result) {
+                            alert("Gràfico registrado correctamente");
+                            window.location.href = '/Home/IndexVotation';
+                            loadQuestion();
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+            }
+            else {
+                alert("FormData is not supported.");
+            }
         }
     }
     
@@ -89,7 +102,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label" for="exampleFormControlFile1">Imagen de Fondo</label>
                         <div class="col-sm-6">
-                            <input type="file" class="form-control-file" id="txtImage">
+                            <input type="file" class="form-control-file" id="txtImage" accept="image/*">
                         </div>
                     </div>
                     <div class="form-group row" id="Divopcion2">

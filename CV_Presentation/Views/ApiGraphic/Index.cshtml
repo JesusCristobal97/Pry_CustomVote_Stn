@@ -12,24 +12,40 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <style>
-
 </style>
 <script>
        setInterval('resultVote()', 2000);
 
         function resultVote() {
             var id = @key;
+            var abc = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+
             $.ajax({
                 url: "/ApiGraphic/Report?key=" +id,
             type: "get",
             success: (function (data) {
                 console.log(data);
+
+                $("#Lista").html(data[0][0]);
+                $("#Respuesta").empty();
+                for (var i = 0; i < data[2].length; i++) {
+                    if (data[2][i] != null) {
+                        $("#Respuesta").append("<h3 class='op'>" + abc[i] + ". " + data[2][i] + "<h3>");
+                    }
+                }
+                var visible = data[0][5];
+
+                if (visible == "False") {
+                    $("#chart_div").css("display", "none");
+                } else {
+                    $("#chart_div").css("display", "block");
+                }
                 setTypeGrafic(data[0][1],data);
             })
         });
     }
 
-   
+
     function loadcHART3D(json) {
         var ruta = "../../App_Data/graphic/" + json[0][4];
         console.log(ruta);
@@ -51,10 +67,11 @@
             }
 
             var options = {
-                title: json[0][0],
+                //title: json[0][0],
                 colors: json[1],
                 width: json[0][2],
                 height: json[0][3],
+               // backgroundColor:'transparent',
                 is3D: true,
             };
 
@@ -134,10 +151,9 @@
                 if (json[2][i] != null) {
                     console.log(json[0][i] + i + "red");
                     data.addRows([[json[2][i],parseInt(json[3][i])]]);
-                    //parseInt(json[3][i])
                 }
             }
-            
+
             var options = {
                 title: json[0][0],
                 colors: json[1],
@@ -248,14 +264,20 @@
         }
     }
 </script>
+<div class="container">
 
-<div class="form-group row">
-    <div class="col-sm-2">
-        <ul id="Lista" style="list-style-type:none;margin-top:20px;">
-        </ul>
-        <h4 id="A"></h4>
+    <div class="row">
+        <div class="col-sm" style="margin-left:100px;">
+            <h2 id="Lista"></h2>
+            <div id="Respuesta">
+
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="col-sm-2" style="margin-left:350px;">
+                <div id="chart_div" style="width: 900px; height: 500px; "></div>
+            </div>
+        </div>
+
     </div>
-    <div class="col-sm-2">
-        <div id="chart_div" style="width: 900px; height: 500px; "></div>
     </div>
-</div>
