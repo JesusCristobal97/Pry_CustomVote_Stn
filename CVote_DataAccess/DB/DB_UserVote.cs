@@ -1,11 +1,7 @@
 ﻿using CVote_DataAccess.Model;
-using System;
-using System.Collections.Generic;
+using CVote_DataAccess.Utils;
 using System.Data;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CVote_DataAccess.DB
 {
@@ -13,9 +9,9 @@ namespace CVote_DataAccess.DB
     {
         public TB_UserVote Login(TB_UserVote userv, OleDbConnection db)
         {
-
+            string pwd = Security.DesEncriptar(userv.password);
             DataSet dataSet = new DataSet();
-            OleDbDataAdapter da = new OleDbDataAdapter("select * from TB_UserVote where Login='" + userv.login + "'and Password ='" + userv.password + "';", db); ;
+            OleDbDataAdapter da = new OleDbDataAdapter("select * from TB_UserVote where Login='" + userv.login + "'and Password ='" + pwd + "';", db); ;
             da.Fill(dataSet);
             db.Close();
             DataTable dt = dataSet.Tables[0];

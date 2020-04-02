@@ -68,6 +68,7 @@
     <Compile Include="Relation\VotationOQU.cs" />
     <Compile Include="Utils\ResultOptions.cs" />
     <Compile Include="Utils\ResultVote.cs" />
+    <Compile Include="Utils\Security.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup />

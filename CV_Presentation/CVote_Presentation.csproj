@@ -441,6 +441,15 @@
     <Content Include="Content\cssVote\vendor\slick\slick.scss" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\functionjs\graphic\index.js" />
+    <Content Include="Scripts\functionjs\votation\graphic.js" />
+    <Content Include="Scripts\functionjs\votation\option.js" />
+    <Content Include="Scripts\functionjs\votation\question.js" />
+    <Content Include="Scripts\functionjs\votation\startvotation.js" />
+    <Content Include="Scripts\functionjs\votation\votants.js" />
+    <Content Include="Scripts\functionjs\votation\votantslogin.js" />
+    <Content Include="Scripts\functionjs\votation\votation.js" />
+    <Content Include="Scripts\functionjs\vote\index.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

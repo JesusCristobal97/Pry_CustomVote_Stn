@@ -1,4 +1,5 @@
 ﻿using CVote_DataAccess.Model;
+using CVote_DataAccess.Utils;
 using System;
 using System.Data.OleDb;
 
@@ -177,12 +178,12 @@ namespace CVote_DataAccess.DB
 
         public string insertVotations(TB_UserVote uv, OleDbConnection db)
         {
-
+            string pwd = Security.Encriptar(uv.password);
             string result = "";
 
             try
             {
-                string sql = @"INSERT INTO TB_UserVote(Login,[Password],TypeUserId,Votationid,NameUser,LastNameUser,DocumentNumber) VALUES ('" + uv.login + "','" + uv.password + "',"+uv.typeUserid +","+uv.votationid+",'"+uv.nameUser+"','"+uv.lastnameUser+"','"+uv.dni+"')";
+                string sql = @"INSERT INTO TB_UserVote(Login,[Password],TypeUserId,Votationid,NameUser,LastNameUser,DocumentNumber) VALUES ('" + uv.login + "','" + pwd + "',"+uv.typeUserid +","+uv.votationid+",'"+uv.nameUser+"','"+uv.lastnameUser+"','"+uv.dni+"')";
                 OleDbCommand cmd = new OleDbCommand(sql, db);
                 cmd.ExecuteNonQuery();
                 db.Close();
